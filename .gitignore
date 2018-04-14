@@ -1,5 +1,10 @@
+bin/
+munka/
 **.php~
 **.un~
 **.css~
 **.js~
+.gitignore~
+config.json
+**.json~
 
