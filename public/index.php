@@ -4,16 +4,7 @@
     
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
-    if (isset($_GET['process'])) {
-        switch ($_GET['process']) {
-
-
-        default:
-        echo 'Ez nem kéne megjelenjen!';
-
-        }
-    }
-    elseif (isset($_GET['thankyou'])) {
+    if (isset($_GET['thankyou'])) {
         congratulate("Thank you for your registration!");
 
     //    render("thankyou.php", ["title" => "Thank you!", "page" => "thankyou"]);

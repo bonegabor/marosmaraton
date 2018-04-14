@@ -45,7 +45,7 @@
     function form_loop($form_name) {   
         $structure = CS50::query("SELECT * FROM forms WHERE name = ?", $form_name);
         if (empty($structure)) {
-            apologize("Empty query");
+            apologize("No form defined!");
         }
         $vals = CS50::query("SELECT * FROM forms_data WHERE form = ? OR form = 'all'", $form_name);
         foreach ($structure as $field) {

@@ -25,7 +25,7 @@
             </div>
 
             <div class="team-member">
-                <?php form_loop('preregister-member-1'); ?>
+                <?php  form_loop('preregister-member-1'); ?>
             </div>
             
             <div id="team-members">
