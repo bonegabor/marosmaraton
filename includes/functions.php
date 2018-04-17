@@ -236,7 +236,11 @@ function verify_team_name() {
 }
 
 function verify_race_number($table = 'teams') {
-    $cmd = sprintf("select race_number from %s where race_number = ?;",$table);
+    if ($table == 'both') 
+        $cmd = ("SELECT race_number FROM ((SELECT race_number, race_id from teams) UNION (SELECT race_number, race as race_id from pre_registrations)) as foo JOIN races as r ON foo.race_id = r.race_id WHERE r.closed != 1 AND foo.race_number = ?;");
+    else
+        $cmd = sprintf("SELECT race_number FROM %s WHERE race_number = ?;",$table);
+
     $result = CS50::query($cmd, $_GET['race_number']);
 
     header("Content-type: application/json");

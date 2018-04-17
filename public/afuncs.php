@@ -20,7 +20,7 @@ if (isset($_GET['process'])) {
     case 'registration': registration();
     break;
 
-    case 'verifyracenumber': verify_race_number();
+    case 'verifyracenumber': verify_race_number('both');
     break;
 
     case 'race-control': race_control();
