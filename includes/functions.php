@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 //require(__DIR__."/../includes/config.php");
 
@@ -12,9 +12,9 @@ function registration() {
         exit;
     }
     if ($_GET['action'] == 'getDetails') {
-        $result = CS50::query("SELECT first_name,last_name,country,region,city,postal_code,address,email,phone,reg_date, 
-                                CASE 
-                                    WHEN reg_date < '2018-03-16' THEN 25 
+        $result = CS50::query("SELECT first_name,last_name,country,region,city,postal_code,address,email,phone,reg_date,
+                                CASE
+                                    WHEN reg_date < '2018-03-16' THEN 25
                                     WHEN reg_date >= '2018-03-16' AND reg_date < '2018-04-15' THEN 35
                                     ELSE 45
                                 END AS fee
@@ -74,7 +74,7 @@ function race() {
                             print(json_encode($result));
                         }
                     }
-                    else { 
+                    else {
                         header("Content-type: application/json");
                         print(-2); //Már befejezte a futamot ez a versenyző
                     }
@@ -109,7 +109,7 @@ function race() {
                     print(json_encode($result));
                 }
             }
-            else { 
+            else {
                 header("Content-type: application/json");
                 print(-2);
             }
@@ -140,7 +140,7 @@ function race() {
             if ($result == 0)
                 print -1;
             else
-                print 1;   
+                print 1;
         }
     }
 }
@@ -175,21 +175,21 @@ function race_control() {
     if ($_GET['action'] == 'competitors-table') {
         $competitors = CS50::query("SELECT t.tid, tm.mid, c.shortname, t.race_number, t.team_name, tm.first_name, tm.last_name, DATE(tm.reg_date) as reg_date, tm.fee, tm.fee_paid FROM `team_members` as tm JOIN `teams` as t on tm.team_id = t.tid JOIN categories as c ON t.category = c. cat_id WHERE t.race_id = ? order by t.race_number", $_SESSION['race_id']);
 
-        // output events as JSON 
+        // output events as JSON
         header("Content-type: application/json");
         print(json_encode($competitors));
     }
     elseif ($_GET['action'] == 'categories-table') {
         $categories = CS50::query("SELECT * FROM categories WHERE race_id = ?", $_SESSION['race_id']);
 
-        // output events as JSON 
+        // output events as JSON
         header("Content-type: application/json");
         print(json_encode($categories));
     }
     elseif ($_GET['action'] == 'results-table') {
         $categories = CS50::query("SELECT c.cat_id,t.tid, r.id, c.shortname, t.race_number, (SELECT GROUP_CONCAT(CONCAT(first_name,' ',last_name)) FROM team_members WHERE ) as team_members, r.finish_time, r.penality, ADDTIME(r.finish_time,SEC_TO_TIME(rs.penpoints * r.penality)) as final_time FROM race r JOIN teams t ON r.team_id = t.tid JOIN categories c ON t.category=c.cat_id JOIN races rs ON rs.race_id = r.race_id WHERE r.race_id = ? AND r.lap_id = ? and r.finish_time <> '0000-00-00 00:00:00';", $_SESSION['race_id'], $_SESSION['lap_id']);
 
-        // output events as JSON 
+        // output events as JSON
         header("Content-type: application/json");
         print(json_encode($categories));
     }
@@ -200,7 +200,7 @@ function extendform($form) {
         $max = 2;
     elseif (in_array($_GET['category'],['WWK','RRK','SK','TK']))
         $max = 1;
-    else 
+    else
         $max = 6;
 
     // outputs the extension of the form asked by ajax
@@ -236,10 +236,10 @@ function verify_team_name() {
 }
 
 function verify_race_number($table = 'teams') {
-    if ($table == 'both') 
+    if ($table == 'both')
         $cmd = ("SELECT race_number FROM ((SELECT race_number, race_id from teams) UNION (SELECT race_number, race as race_id from pre_registrations)) as foo JOIN races as r ON foo.race_id = r.race_id WHERE r.closed != 1 AND foo.race_number = ?;");
     else
-        $cmd = sprintf("SELECT race_number FROM %s WHERE race_number = ?;",$table);
+        $cmd = sprintf("SELECT race_number FROM %s WHERE race_number = ? AND archive = 0;",$table);
 
     $result = CS50::query($cmd, $_GET['race_number']);
 
@@ -266,7 +266,7 @@ function edit() {
             if ($result == 0)
                 print -1;
             else
-                print 1;   
+                print 1;
         }
         else {
             $cmd = "insert into categories (race_id, ".$_POST['column'].") values (?,?);";
@@ -274,7 +274,7 @@ function edit() {
             if ($result == 0)
                 print -1;
             else
-                print 2;   
+                print 2;
         }
     }
     elseif ($_POST['table'] == 'team_members') {
@@ -284,7 +284,7 @@ function edit() {
             if ($result == 0)
                 print -1;
             else
-                print 1;   
+                print 1;
         }
     }
 }
