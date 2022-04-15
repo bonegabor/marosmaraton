@@ -350,14 +350,6 @@
             else
             {
                 $_SESSION['last_id'] = $handle->lastInsertId();
-                if ((isset($_SESSION['id'])) && ($query != "set names utf8")) {
-                    $stat = $handle->query("INSERT INTO history (uid, query) VALUES (".$_SESSION['id'].",'". addslashes($query)."');");
-                    if ($stat === false)
-                    {
-                        trigger_error($handle->errorInfo()[2], E_USER_ERROR);
-                    }
-                }
-
                 // return number of rows affected
                 return $statement->rowCount();
             }
